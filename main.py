@@ -22,13 +22,13 @@ def main() -> None:
     parser.add_argument(
         "--algorithm",
         choices=[
-            "Nearest Neighbor",
-            "Decision Tree",
-            "Naive Bayes",
+            "Nearest_Neighbor",
+            "Decision_Tree",
+            "Naive_Bayes",
             "SVM",
-            "Neural Network",
+            "Neural_Network",
         ],
-        default='SVM'
+        default='Nearest_Neighbor'
     )
 
     args = parser.parse_args()
@@ -39,15 +39,15 @@ def main() -> None:
         filename = "project1_dataset2_numeric.txt"
 
     match args.algorithm:
-        case "Nearest Neighbor":
+        case "Nearest_Neighbor":
             algorithm_type: type[Algorithm] = NearestNeighbor
-        case "Decision Tree":
+        case "Decision_Tree":
             algorithm_type = DecisionTree
-        case "Naive Bayes":
+        case "Naive_Bayes":
             algorithm_type = NaiveBayes
         case "SVM":
             algorithm_type = SVM
-        case "Neural Network":
+        case "Neural_Network":
             algorithm_type = NeuralNetwork
         case _:
             raise Exception()
@@ -89,6 +89,7 @@ def main() -> None:
         # print(f'Recall = {recall_score(testing_y, predictions)}')
         # print(f'F-1 Measure = {f1_score(testing_y, predictions)}')
     fold_acc = pd.DataFrame(fold_acc)
+    print(f'-----------------model: {args.algorithm}, dataset: {args.dataset}-----------------')
     print(fold_acc)
 
 main()
