@@ -11,13 +11,14 @@ from neural_network import NeuralNetwork
 from nearest_neighbor import NearestNeighbor
 from naive_bayes import NaiveBayes
 from svm import SVM
+import pandas as pd
 
 
 def main() -> None:
     np.random.seed(123)
 
     parser = ArgumentParser()
-    parser.add_argument("--dataset", type=int, choices=[1, 2])
+    parser.add_argument("--dataset", type=int, choices=[1, 2], default=1)
     parser.add_argument(
         "--algorithm",
         choices=[
@@ -27,6 +28,7 @@ def main() -> None:
             "SVM",
             "Neural Network",
         ],
+        default='SVM'
     )
 
     args = parser.parse_args()
@@ -57,7 +59,7 @@ def main() -> None:
     K = 10
 
     splits = KFold(n_splits=K)
-
+    fold_acc = []
     for fold_num, (train_index, test_index) in enumerate(splits.split(data)):
         training_data = data[train_index]
         testing_data = data[test_index]
@@ -74,11 +76,19 @@ def main() -> None:
         algorithm.train()
 
         predictions = algorithm.predict()
-
-        print(f'Fold Number {fold_num}')
-        print(f'Accuracy = {accuracy_score(testing_y, predictions)}')
-        print(f'Precision = {precision_score(testing_y, predictions)}')
-        print(f'Recall = {recall_score(testing_y, predictions)}')
-        print(f'F-1 Measure = {f1_score(testing_y, predictions)}')
+        fold_acc.append({
+            'fold_num': fold_num,
+            'Accuracy':accuracy_score(testing_y, predictions),
+            'Precision':precision_score(testing_y, predictions),
+            'Recall':recall_score(testing_y, predictions),
+            'F1 Measure': f1_score(testing_y, predictions)
+        })
+        # print(f'Fold Number {fold_num}')
+        # print(f'Accuracy = {accuracy_score(testing_y, predictions)}')
+        # print(f'Precision = {precision_score(testing_y, predictions)}')
+        # print(f'Recall = {recall_score(testing_y, predictions)}')
+        # print(f'F-1 Measure = {f1_score(testing_y, predictions)}')
+    fold_acc = pd.DataFrame(fold_acc)
+    print(fold_acc)
 
 main()
