@@ -3,7 +3,7 @@ from sklearn.tree import DecisionTreeClassifier
 from numpy.typing import ArrayLike
 
 class DecisionTree(Algorithm):
-    def __init__(self, training_x, training_y, testing_x, max_depth=5) -> None:
+    def __init__(self, training_x, training_y, testing_x, parameter_type, max_depth=5) -> None:
         self.training_x = training_x
         self.training_y = training_y
         self.testing_x = testing_x

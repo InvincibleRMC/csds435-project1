@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-from algorithm import Algorithm
+from algorithm import Algorithm, Parameter
 from decision_tree import DecisionTree
 from neural_network import NeuralNetwork
 from nearest_neighbor import NearestNeighbor
@@ -31,6 +31,11 @@ def main() -> None:
         ],
         default="Nearest_Neighbor",
     )
+    parser.add_argument(
+        "--hyperparameter-type",
+        choices=["Training", "Default", "D1", "D2"],
+        default="Default",
+    )
 
     args = parser.parse_args()
 
@@ -53,6 +58,18 @@ def main() -> None:
         case _:
             raise Exception()
 
+    parameter_type: Parameter    
+    
+    match args.hyperparameter_type:
+        case "Training":
+            parameter_type = Parameter.TRAINING
+        case "Default":
+            parameter_type = Parameter.DEFAULT
+        case "D1":
+            parameter_type = Parameter.D1_PARAMETERS
+        case "D2":
+            parameter_type = Parameter.D2_PARAMETERS
+
     f = open(os.path.join("data", filename))
 
     data = np.loadtxt(f)
@@ -62,6 +79,7 @@ def main() -> None:
     splits = KFold(n_splits=K)
     scalar = StandardScaler()
     fold_acc = []
+    algorithm: Algorithm
 
     for fold_num, (train_index, test_index) in enumerate(splits.split(data)):
         training_data = data[train_index]
@@ -78,7 +96,7 @@ def main() -> None:
         training_x = scalar.fit_transform(training_x)
         testing_x = scalar.transform(testing_x)
 
-        algorithm = algorithm_type(training_x, training_y, testing_x)
+        algorithm = algorithm_type(training_x, training_y, testing_x, parameter_type)
         algorithm.train()
 
         predictions = algorithm.predict()
@@ -91,7 +109,7 @@ def main() -> None:
                 "F1 Measure": f1_score(testing_y, predictions),
             }
         )
-        # print(f'Fold Number {fold_num}')
+        # print(f"Fold Number {fold_num}")
         # print(f'Accuracy = {accuracy_score(testing_y, predictions)}')
         # print(f'Precision = {precision_score(testing_y, predictions)}')
         # print(f'Recall = {recall_score(testing_y, predictions)}')

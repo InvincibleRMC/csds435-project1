@@ -3,7 +3,7 @@ from sklearn.naive_bayes import GaussianNB
 from numpy.typing import ArrayLike
 
 class NaiveBayes(Algorithm):
-    def __init__(self, training_x, training_y, testing_x) -> None:
+    def __init__(self, training_x, training_y, testing_x, parameter_type) -> None:
         self.training_x = training_x
         self.training_y = training_y
         self.testing_x = testing_x

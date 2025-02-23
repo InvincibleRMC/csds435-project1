@@ -3,7 +3,7 @@ from sklearn.svm import SVC
 from numpy.typing import ArrayLike
 
 class SVM(Algorithm):
-    def __init__(self, training_x, training_y, testing_x, kernel='rbf', C=1.0, gamma='scale') -> None:
+    def __init__(self, training_x, training_y, testing_x, parameter_type, kernel='rbf', C=1.0, gamma='scale') -> None:
         self.training_x = training_x
         self.training_y = training_y
         self.testing_x = testing_x
