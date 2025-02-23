@@ -2,6 +2,7 @@ import os
 from argparse import ArgumentParser
 
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
@@ -28,7 +29,7 @@ def main() -> None:
             "SVM",
             "Neural_Network",
         ],
-        default='Nearest_Neighbor'
+        default="Nearest_Neighbor",
     )
 
     args = parser.parse_args()
@@ -59,7 +60,9 @@ def main() -> None:
     K = 10
 
     splits = KFold(n_splits=K)
+    scalar = StandardScaler()
     fold_acc = []
+
     for fold_num, (train_index, test_index) in enumerate(splits.split(data)):
         training_data = data[train_index]
         testing_data = data[test_index]
@@ -72,24 +75,32 @@ def main() -> None:
         testing_x = testing_data[:, 0:end_index]
         testing_y = testing_data[:, end_index]
 
+        training_x = scalar.fit_transform(training_x)
+        testing_x = scalar.transform(testing_x)
+
         algorithm = algorithm_type(training_x, training_y, testing_x)
         algorithm.train()
 
         predictions = algorithm.predict()
-        fold_acc.append({
-            'fold_num': fold_num,
-            'Accuracy':accuracy_score(testing_y, predictions),
-            'Precision':precision_score(testing_y, predictions),
-            'Recall':recall_score(testing_y, predictions),
-            'F1 Measure': f1_score(testing_y, predictions)
-        })
+        fold_acc.append(
+            {
+                "fold_num": fold_num,
+                "Accuracy": accuracy_score(testing_y, predictions),
+                "Precision": precision_score(testing_y, predictions),
+                "Recall": recall_score(testing_y, predictions),
+                "F1 Measure": f1_score(testing_y, predictions),
+            }
+        )
         # print(f'Fold Number {fold_num}')
         # print(f'Accuracy = {accuracy_score(testing_y, predictions)}')
         # print(f'Precision = {precision_score(testing_y, predictions)}')
         # print(f'Recall = {recall_score(testing_y, predictions)}')
         # print(f'F-1 Measure = {f1_score(testing_y, predictions)}')
     fold_acc = pd.DataFrame(fold_acc)
-    print(f'-----------------model: {args.algorithm}, dataset: {args.dataset}-----------------')
+    print(
+        f"-----------------model: {args.algorithm}, dataset: {args.dataset}-----------------"
+    )
     print(fold_acc)
+
 
 main()
