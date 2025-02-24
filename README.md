@@ -26,6 +26,7 @@ For data preprocessing we used scikit-learn's `StandardScaler` to remove the mea
     - For determining hyperparameter we used `GridSearchCV` to evaluate diferent parameters. To see the optomized parameters check them out in `neural_network.py`. For data set 1 the default stores almost optomized so the improvement is not great. In data set 2 the accuracies are about the same but, precision, recall, and F1 are much higher.
 
 ## Results
+- Here we show the average results on the 10-fold Cross Validation.
 ### Dataset 1
 | Method  | Accuracy | Precision |Recall |F1 Measure|
 |:-------:|:-------:|:-------:|:-------:|:-------:|
