@@ -1,3 +1,7 @@
+# CSDS 435 Project 1
+
+by rmc170, wxy320
+
 # Code Running
 
 Create a python venv.
