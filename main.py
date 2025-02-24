@@ -115,6 +115,9 @@ def main() -> None:
         # print(f'Recall = {recall_score(testing_y, predictions)}')
         # print(f'F-1 Measure = {f1_score(testing_y, predictions)}')
     fold_acc = pd.DataFrame(fold_acc)
+    mean_values = fold_acc.mean()
+    # 将平均值作为新的一行添加
+    fold_acc.loc['Mean'] = mean_values
     print(
         f"-----------------model: {args.algorithm}, dataset: {args.dataset}-----------------"
     )
