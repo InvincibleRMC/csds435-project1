@@ -10,7 +10,7 @@ Install dependencies from requirements.txt
 
 Run main.ipynb
 
-# Algorithm Descripions and Results
+# Algorithm Descriptions and Results
 
 ## Data Preprocessing
 
