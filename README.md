@@ -30,8 +30,10 @@ For data preprocessing we used scikit-learn's `StandardScaler` to remove the mea
     - For determining hyperparameter we used `GridSearchCV` to evaluate diferent parameters. To see the optomized parameters check them out in `neural_network.py`. For data set 1 the default stores almost optomized so the improvement is not great. In data set 2 the accuracies are about the same but, precision, recall, and F1 are much higher.
 
 ## Results
+
 - Here we show the average results on the 10-fold Cross Validation.
 ### Dataset 1
+
 | Method  | Accuracy | Precision |Recall |F1 Measure|
 |:-------:|:-------:|:-------:|:-------:|:-------:|
 | Nearest Neighbor |  0.966635  | 0.978279 | 0.928055  |  0.950699|
@@ -56,5 +58,7 @@ For data preprocessing we used scikit-learn's `StandardScaler` to remove the mea
 
 - Key Takeaways:
 	1.	SVM and Neural Networks consistently performed the best across both datasets.
-	2.	Naïve Bayes showed strong recall in Dataset 2, making it potentially useful for imbalanced datasets.
-	3.	Decision Trees and Nearest Neighbors performed worse than other models, suggesting they may be more dataset-sensitive.
+
+  2.	Naïve Bayes showed strong recall in Dataset 2, making it potentially useful for imbalanced datasets.
+
+  3.	Decision Trees and Nearest Neighbors performed worse than other models, suggesting they may be more dataset-sensitive.
